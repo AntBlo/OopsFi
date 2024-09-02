@@ -1,0 +1,1 @@
+Just to test how devices work with bad wifi

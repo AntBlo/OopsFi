@@ -1,0 +1,66 @@
+[package]
+name = "OopsFi"
+version = "0.1.0"
+edition = "2021"
+[workspace]
+
+[dependencies]
+
+embassy-futures = { version = "0.1.1", default-features = false }
+
+esp-backtrace = { version = "0.14.0", features = ["esp32c3", "panic-handler", "exception-handler", "println"] }
+esp-hal = { version = "0.20.1", features = ["esp32c3", "log", "async"] }
+esp-println = { version = "0.11.0", features = [
+  "esp32c3",
+  "log",
+  "critical-section",
+  "uart",
+], default-features = false }
+log = { version = "0.4.22", default-features = false }
+
+embedded-io = { version = "0.6.1", default-features = false }
+
+esp-wifi = { version = "0.8.0", features = [
+  "esp32c3",
+  "embassy-net",
+  "phy-enable-usb",
+  "async",
+  "ipv4",
+  "wifi",
+  "wifi-default",
+  "dhcpv4",
+  "utils",
+], default-features = false }
+
+esp-hal-embassy = { version = "0.3.0", features = ["esp32c3"] }
+
+embassy-executor = { version = "0.6.0", features = ["task-arena-size-24576", "executor-interrupt"] }
+embassy-net = { version = "0.4.0", features = ["tcp", "udp", "dhcpv4", "medium-ethernet"] }
+embassy-sync = { version = "0.6.0" }
+
+embassy-time = { version = "0.3.1", features = ["generic-queue-8"] }
+
+static_cell = { version = "2.1.0", features = ["nightly"] }
+
+edge-raw = { git = "https://github.com/ivmarkov/edge-net", package = "edge-raw", rev = "947929da0021645b8413d1769172a0ea2124dd63", features = [
+] }
+edge-dhcp = { git = "https://github.com/ivmarkov/edge-net", package = "edge-dhcp", rev = "947929da0021645b8413d1769172a0ea2124dd63", features = [
+] }
+edge-nal-embassy = { git = "https://github.com/ivmarkov/edge-net", package = "edge-nal-embassy", rev = "947929da0021645b8413d1769172a0ea2124dd63", features = [
+] }
+edge-nal = { git = "https://github.com/ivmarkov/edge-net", package = "edge-nal", rev = "947929da0021645b8413d1769172a0ea2124dd63", features = [
+] }
+
+embedded-io-async = { version = "0.6.1" }
+
+[profile.dev]
+opt-level = "s"
+
+[profile.release]
+codegen-units = 1
+debug = 2
+debug-assertions = true
+incremental = true
+lto = "fat"
+opt-level = 3
+overflow-checks = true

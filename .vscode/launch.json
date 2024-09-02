@@ -1,0 +1,61 @@
+{
+  "configurations": [
+    {
+      "type": "probe-rs-debug",
+      "request": "launch",
+      "name": "Launch",
+      "cwd": "${workspaceFolder}",
+      "chip": "esp32c3",
+      // "speed": 10000,
+      "flashingConfig": {
+        "flashingEnabled": true,
+        "haltAfterReset": true,
+        "fullChipErase": true,
+        "formatOptions": {
+          "binaryFormat": "elf"
+        }
+      },
+      "coreConfigs": [
+        {
+          "coreIndex": 0,
+          "programBinary": "target/riscv32imc-unknown-none-elf/debug/OopsFi",
+          // "svdFile": "${workspaceFolder}/esp32c3.svd",
+          "rttEnabled": false
+        }
+      ]
+    },
+    {
+      // more info at: https://github.com/Marus/cortex-debug/blob/master/package.json
+      "name": "Attach",
+      "type": "cortex-debug",
+      "request": "attach",
+      "cwd": "${workspaceRoot}",
+      "executable": "target/riscv32imc-unknown-none-elf/debug/OopsFi",
+      "servertype": "openocd",
+      "interface": "jtag",
+      "toolchainPrefix": "riscv32-esp-elf-gdb",
+      "serverpath": "/usr/local/openocd-esp32/bin/openocd",
+      "openOCDPreConfigLaunchCommands": ["set ESP_RTOS none"],
+      "openOCDLaunchCommands": [
+        // "adapter speed 10000"
+        // "program_esp target/riscv32imc-unknown-none-elf/debug/OopsFi 0x10000 verify reset",
+      ],
+      "gdbPath": "/usr/local/riscv32-esp-elf-gdb/bin/riscv32-esp-elf-gdb",
+      // "svdFile": "${workspaceFolder}/esp32c3.svd",
+      "configFiles": ["board/esp32c3-builtin.cfg"],
+      "overrideAttachCommands": [
+        "set remote hardware-watchpoint-limit 2",
+        "mon reset halt",
+        "maintenance flush register-cache"
+        // "flush register-cache"
+        // "flushregs"
+      ],
+      "overrideRestartCommands": [
+        "mon reset halt"
+        // "flushregs",
+        // "c"
+      ],
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

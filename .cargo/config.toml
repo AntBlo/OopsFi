@@ -1,0 +1,13 @@
+[target.riscv32imc-unknown-none-elf]
+runner = "espflash flash --baud=115200 --monitor -p /dev/ttyACM0"
+
+[env]
+ESP_LOGLEVEL = "INFO"
+
+[build]
+rustflags = ["-g", "-C", "link-arg=-Tlinkall.x", "-C", "force-frame-pointers", "-C", "link-arg=-Trom_functions.x"]
+
+target = "riscv32imc-unknown-none-elf"
+
+[unstable]
+build-std = ["core", "alloc"]
